@@ -502,6 +502,7 @@ class TestFeatureFlags implements FeatureFlags {
     this.isNativeAssetsEnabled = false,
     this.isSwiftPackageManagerEnabled = false,
     this.isOmitLegacyVersionFileEnabled = false,
+    this.isWindowingEnabled = false,
     this.isLLDBDebuggingEnabled = false,
   });
 
@@ -542,9 +543,6 @@ class TestFeatureFlags implements FeatureFlags {
   final bool isOmitLegacyVersionFileEnabled;
 
   @override
-  final bool isLLDBDebuggingEnabled;
-
-  @override
   bool isEnabled(Feature feature) {
     return switch (feature) {
       flutterWebFeature => isWebEnabled,
@@ -559,7 +557,6 @@ class TestFeatureFlags implements FeatureFlags {
       nativeAssets => isNativeAssetsEnabled,
       swiftPackageManager => isSwiftPackageManagerEnabled,
       omitLegacyVersionFile => isOmitLegacyVersionFileEnabled,
-      lldbDebugging => isLLDBDebuggingEnabled,
       _ => false,
     };
   }
@@ -578,7 +575,6 @@ class TestFeatureFlags implements FeatureFlags {
     nativeAssets,
     swiftPackageManager,
     omitLegacyVersionFile,
-    lldbDebugging,
   ];
 
   @override
