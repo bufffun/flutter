@@ -4,6 +4,7 @@
 
 #include "flutter/shell/platform/windows/task_runner_window.h"
 
+#include <timeapi.h>
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -215,14 +216,6 @@ TaskRunnerWindow::HandleMessage(UINT const message,
                                 WPARAM const wparam,
                                 LPARAM const lparam) noexcept {
   switch (message) {
-    case WM_TIMER:
-      if (wparam == kPollTimeoutTimerId) {
-        // Ignore PollOnce timeout timer.
-        return 0;
-      }
-      FML_DCHECK(wparam == kTimerId);
-      ProcessTasks();
-      return 0;
     case WM_NULL:
       // After this point, WakeUp() needs to post new message to ensure
       // that the wake-up request is not lost.
