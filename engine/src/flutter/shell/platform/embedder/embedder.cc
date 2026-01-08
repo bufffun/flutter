@@ -1621,6 +1621,31 @@ MakeViewportMetricsFromWindowMetrics(
 
   metrics.physical_width = SAFE_ACCESS(flutter_metrics, width, 0.0);
   metrics.physical_height = SAFE_ACCESS(flutter_metrics, height, 0.0);
+
+  if (SAFE_ACCESS(flutter_metrics, has_constraints, false)) {
+    metrics.physical_min_width_constraint = SAFE_ACCESS(
+        flutter_metrics, min_width_constraint, metrics.physical_width);
+    metrics.physical_max_width_constraint = SAFE_ACCESS(
+        flutter_metrics, max_width_constraint, metrics.physical_width);
+    metrics.physical_min_height_constraint = SAFE_ACCESS(
+        flutter_metrics, min_height_constraint, metrics.physical_height);
+    metrics.physical_max_height_constraint = SAFE_ACCESS(
+        flutter_metrics, max_height_constraint, metrics.physical_height);
+  } else {
+    metrics.physical_min_width_constraint = metrics.physical_width;
+    metrics.physical_max_width_constraint = metrics.physical_width;
+    metrics.physical_min_height_constraint = metrics.physical_height;
+    metrics.physical_max_height_constraint = metrics.physical_height;
+  }
+
+  if (metrics.physical_width < metrics.physical_min_width_constraint ||
+      metrics.physical_width > metrics.physical_max_width_constraint ||
+      metrics.physical_height < metrics.physical_min_height_constraint ||
+      metrics.physical_height > metrics.physical_max_height_constraint) {
+    return "Window metrics are invalid. Width and height must be within the "
+           "specified constraints.";
+  }
+
   metrics.device_pixel_ratio = SAFE_ACCESS(flutter_metrics, pixel_ratio, 1.0);
   metrics.physical_view_inset_top =
       SAFE_ACCESS(flutter_metrics, physical_view_inset_top, 0.0);
