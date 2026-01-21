@@ -804,6 +804,11 @@ class Shell final : public PlatformView::Delegate,
 
   BoxConstraints ExpectedFrameConstraints(int64_t view_id);
 
+  // For accessing the Shell via the raster thread, necessary for various
+  // rasterizer callbacks.
+  std::unique_ptr<fml::TaskRunnerAffineWeakPtrFactory<Shell>> weak_factory_gpu_;
+
+  fml::WeakPtrFactory<Shell> weak_factory_;
   friend class testing::ShellTest;
 
   FML_DISALLOW_COPY_AND_ASSIGN(Shell);
